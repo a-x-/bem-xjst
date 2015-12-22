@@ -175,6 +175,18 @@ describe('BEMHTML compiler/Runtime', function() {
     ], '<div class="a__b"></div><div class="b__true"></div>');
   });
 
+  it('should ignore empty string as modName values', function() {
+    test(function() {
+    }, { block: 'a', mods: { '': 'b' } },
+    '<div class="a"></div>');
+  });
+
+  it('should ignore empty string as elemModName values', function() {
+    test(function() {
+    }, { block: 'a', elem: 'b', elemMods: { '': 'c' } },
+    '<div class="a__b"></div>');
+  });
+
   it('should properly save context while render plain html items', function() {
     test(function() {
     }, {
