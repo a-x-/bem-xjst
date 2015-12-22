@@ -154,6 +154,27 @@ describe('BEMHTML compiler/Runtime', function() {
     ], '<div class="b1"></div>');
   });
 
+  it('should ignore falsy as elem values', function() {
+    test(function() {
+    }, [
+      { block: 'a', elem: '' },
+      { block: 'b', elem: null },
+      { block: 'c', elem: NaN },
+      { block: 'd', elem: false },
+      { block: 'e', elem: 0 },
+      { block: 'f', elem: undefined }
+    ], '<div class="a"></div><div class="b"></div><div class="c"></div>' +
+        '<div class="d"></div><div class="e"></div><div class="f"></div>');
+  });
+
+  it('should accept true and non empty string as elem values', function() {
+    test(function() {
+    }, [
+      { block: 'a', elem: 'b' },
+      { block: 'b', elem: true }
+    ], '<div class="a__b"></div><div class="b__true"></div>');
+  });
+
   it('should properly save context while render plain html items', function() {
     test(function() {
     }, {
