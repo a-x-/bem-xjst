@@ -138,6 +138,31 @@ var html = templates.apply(bemjson);
 ```
 Подробнее про [cоглашение по именованию](https://ru.bem.info/method/naming-convention/) на bem.info.
 
+### Закрытие одиночных элементов
+
+Если вам необходимо генерировать корректный XHTML (закрывать одиночные элементы),
+можно воспользоваться опцией `xhtml`:
+```js
+var bemxjst = require('bem-xjst');
+var templates = bemxjst.bemhtml.compile(function() {
+    // В этом примере мы не добавляем пользовательских шаблонов.
+    // Для рендеринга HTML будет использовано поведение шаблонизатора по умолчанию.
+    }, {
+        // Включаем режим XHTML
+        xhtml: true
+    });
+
+var bemjson = {
+    tag: 'br'
+};
+
+var html = templates.apply(bemjson);
+```
+В результате `html` будет содержать строку:
+```html
+<br/>
+```
+
 ### Расширение `BEMContext`
 
 Вы можете расширять `BEMContext`, чтобы использовать в теле шаблона пользовательские функции.

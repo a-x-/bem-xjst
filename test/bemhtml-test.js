@@ -1,5 +1,6 @@
 var fixtures = require('./fixtures')('bemhtml');
 var test = fixtures.test;
+var compile = fixtures.compile;
 
 describe('BEMHTML engine tests', function() {
   it('should compile example code', function() {
@@ -92,7 +93,7 @@ describe('BEMHTML engine tests', function() {
       );
     }, {
       block: 'page', elem: 'css', url: 'ohai'
-    }, '<link rel="stylesheet" href="ohai"/>');
+    }, '<link rel="stylesheet" href="ohai">');
   });
 
   it('should support `.xjstOptions()`', function() {
@@ -103,5 +104,35 @@ describe('BEMHTML engine tests', function() {
     }, {
       block: 'b1'
     }, '<div class="b1">ok</div>');
+  });
+
+  describe('xhtml option', function() {
+    it('should not close short tags in BEMJSON by default', function() {
+      compile('')
+        .apply({ tag: 'br' })
+        .should.equal('<br>');
+    });
+
+    it('should not close short tags in BEMHTML by default', function() {
+      test(function() {
+        block('b1').tag()('br');
+      }, {
+        block: 'b1'
+      }, '<br class="b1">');
+    });
+
+    it('should close short tags in BEMJSON with xhtml option', function() {
+      compile(function() {}, { xhtml: true })
+        .apply({ block: 'b', tag: 'br' })
+        .should.equal('<br class="b"/>');
+    });
+
+    it('should not close short tags in BEMHTML by default', function() {
+      test(function() {
+        block('b1').tag()('br');
+      }, {
+        block: 'b1'
+      }, '<br class="b1"/>', { xhtml: true });
+    });
   });
 });
